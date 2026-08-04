@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earth & Bean | Experience Cafe</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-main: #FAF6F0;
+            --bg-card: #FFFFFF;
+            --primary: #2D4030;
+            --primary-light: #4A634E;
+            --accent: #C86D51;
+            --text-dark: #23201D;
+            --text-muted: #6B655F;
+            --border-color: #E8E2D9;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --shadow-sm: 0 4px 12px rgba(35, 32, 29, 0.04);
+            --shadow-md: 0 10px 25px rgba(35, 32, 29, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* NAVIGATION BAR */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(250, 246, 240, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent); }
+
+        .main-nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-tab-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            padding: 0.5rem 1.1rem;
+            border-radius: 20px;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .nav-tab-btn:hover { color: var(--accent); }
+
+        .nav-tab-btn.active {
+            background-color: var(--primary);
+            color: #FFF;
+        }
+
+        /* PAGE SECTIONS */
+        .view-section {
+            display: none;
+            padding: 2.5rem 0;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .view-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* HOME HERO */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+            min-height: 70vh;
+        }
+
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            line-height: 1.15;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .hero-desc {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #FFF;
+            padding: 0.8rem 1.8rem;
+            border-radius: 30px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .btn-primary:hover { background-color: #B55C41; }
+
+        .hero-img img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        /* MENU VIEWPORT (NO-SCROLL SYSTEM) */
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 2.2rem;
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .category-subtabs {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.8rem;
+            flex-wrap: wrap;
+        }
+
+        .subtab-btn {
+            background: #E8E2D9;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .subtab-btn.active {
+            background-color: var(--accent);
+            color: #FFF;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .menu-card {
+            background-color: var(--bg-card);
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-img {
+            height: 160px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 0.4rem;
+        }
+
+        .card-title {
+            font-family: var(--font-heading);
+            font-size: 1.1rem;
+            color: var(--primary);
+        }
+
+        .card-price {
+            font-weight: 700;
+            color: var(--accent);
+            font-size: 1.05rem;
+        }
+
+        .card-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .card-tag {
+            font-size: 0.75rem;
+            background: #EBF3EC;
+            color: var(--primary);
+            padding: 0.2rem 0.6rem;
+            border-radius: 10px;
+            width: fit-content;
+            font-weight: 600;
+        }
+
+        /* PHOTO GALLERY VIEW */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 14px;
+            overflow: hidden;
+            height: 220px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .gallery-item:hover img { transform: scale(1.05); }
+
+        .gallery-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.75));
+            color: #FFF;
+            padding: 1rem 0.8rem 0.6rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        /* ABOUT & UNIQUE FEATURES VIEW */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .feature-card {
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 1.8rem;
+            border-radius: 16px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .feature-title {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        /* RESPONSIVE DESIGN */
+        @media (max-width: 900px) {
+            .hero, .menu-grid, .gallery-grid, .features-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 2.2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAV BAR & PAGE SWITCHER -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">Earth & <span>Bean</span></a>
+            <div class="main-nav-tabs">
+                <button class="nav-tab-btn active" onclick="switchMainView('home-view', this)">Home</button>
+                <button class="nav-tab-btn" onclick="switchMainView('menu-view', this)">Food & Drinks Menu</button>
+                <button class="nav-tab-btn" onclick="switchMainView('gallery-view', this)">Cafe Ambience Photos</button>
+                <button class="nav-tab-btn" onclick="switchMainView('about-view', this)">Unique Features</button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        
+        <!-- PAGE 1: HOME -->
+        <section id="home-view" class="view-section active">
+            <div class="hero">
+                <div>
+                    <h1 class="hero-title">A quiet sanctuary for artisanal coffee & fresh meals.</h1>
+                    <p class="hero-desc">Small-batch coffee roasted in-house, sourdough bakery items, and high-speed working nooks nestled in lush green surroundings.</p>
+                    <button class="btn-primary" onclick="switchMainView('menu-view', document.querySelectorAll('.nav-tab-btn')[1])">View Full Food & Drinks Menu</button>
+                </div>
+                <div class="hero-img">
+                    <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" alt="Cafe interior">
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 2: EXPANDED FOOD & DRINKS MENU -->
+        <section id="menu-view" class="view-section">
+            <h2 class="section-title">In-Cafe Dining & Specialty Menu</h2>
+            <p class="section-subtitle">Switch categories below to explore freshly prepared cafe items.</p>
+            
+            <!-- Category Tabs -->
+            <div class="category-subtabs">
+                <button class="subtab-btn active" onclick="switchCategory('breakfast', this)">All-Day Breakfast</button>
+                <button class="subtab-btn" onclick="switchCategory('sandwiches', this)">Artisanal Sandwiches</button>
+                <button class="subtab-btn" onclick="switchCategory('mains', this)">Main Bowls & Plates</button>
+                <button class="subtab-btn" onclick="switchCategory('desserts', this)">Bakery & Desserts</button>
+                <button class="subtab-btn" onclick="switchCategory('beverages', this)">Coffee & Beverages</button>
+            </div>
+
+            <!-- Dynamic Menu Grid -->
+            <div class="menu-grid" id="menuGrid">
+                <!-- Javascript injects food items here -->
+            </div>
+        </section>
+
+        <!-- PAGE 3: CAFE AMBIENCE PHOTO GALLERY -->
+        <section id="gallery-view" class="view-section">
+            <h2 class="section-title">Explore Our Space</h2>
+            <p class="section-subtitle">Take a look inside before you visit us.</p>
+            
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=600&q=80" alt="Main Seating Area">
+                    <div class="gallery-caption">Main Lounge & Seating</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1442512595331-e89e73853f31?auto=format&fit=crop&w=600&q=80" alt="Espresso Bar">
+                    <div class="gallery-caption">Live Pour-Over & Brew Bar</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1521017432531-fbd92d768814?auto=format&fit=crop&w=600&q=80" alt="Outdoor Courtyard">
+                    <div class="gallery-caption">Botanical Garden Courtyard</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=600&q=80" alt="Work Pods">
+                    <div class="gallery-caption">Quiet Work Nooks & Power Outlets</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1509042239860-f550ce710b93?auto=format&fit=crop&w=600&q=80" alt="Fresh Beans">
+                    <div class="gallery-caption">In-House Small Batch Roastery</div>
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1559925393-8be0ec4767c8?auto=format&fit=crop&w=600&q=80" alt="Evening Vibe">
+                    <div class="gallery-caption">Warm Evening Lighting & Acoustic Music</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 4: UNIQUE FEATURES & ABOUT US -->
+        <section id="about-view" class="view-section">
+            <h2 class="section-title">What Makes Us Unique</h2>
+            <p class="section-subtitle">More than just coffee — a thought-out space for work, leisure, and culinary delight.</p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">☕</div>
+                    <h3 class="feature-title">Micro-Roastery On-Site</h3>
+                    <p class="feature-desc">We source single-origin 100% Arabica beans directly from Chikmagalur and roast them in small batches weekly.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3 class="feature-title">High-Speed Remote Work Hub</h3>
+                    <p class="feature-desc">Dedicated quiet zones featuring 300 Mbps Wi-Fi, universal power sockets at every table, and ergonomic seating.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌿</div>
+                    <h3 class="feature-title">Zero Plastic & Sustainable</h3>
+                    <p class="feature-desc">100% compostable takeaway packaging, glass straws, and solar-powered water heating systems.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🍞</div>
+                    <h3 class="feature-title">Wild Yeast Sourdough Bakery</h3>
+                    <p class="feature-desc">Our artisanal bread is naturally fermented for 24 hours using zero artificial preservatives or commercial yeasts.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🐶</div>
+                    <h3 class="feature-title">Pet-Friendly Courtyard</h3>
+                    <p class="feature-desc">Dedicated outdoor seating where pets are welcomed with complimentary water bowls and organic treats.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎶</div>
+                    <h3 class="feature-title">Acoustic Live Sessions</h3>
+                    <p class="feature-desc">Enjoy subtle, indie acoustic guitar and jazz sessions every Friday and Saturday evening from 7:00 PM.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // EXPANDED FOOD & DRINKS DATASET
+        const menuData = {
+            breakfast: [
+                { name: "Avocado & Poached Egg Toast", price: "₹340", desc: "Smashed Hass avocado, organic poached egg, and chili flakes on sourdough.", img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=500&q=80", tag: "Best Seller" },
+                { name: "Fluffy Berry Pancakes", price: "₹290", desc: "Triple stacked maple pancakes served with fresh blueberry compote.", img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=500&q=80", tag: "Sweet" },
+                { name: "Shakshuka with Garlic Toast", price: "₹320", desc: "Two poached eggs in a spiced bell pepper tomato sauce with sourdough slices.", img: "https://images.unsplash.com/photo-1590412200988-a436970781fa?auto=format&fit=crop&w=500&q=80", tag: "Chef Special" }
+            ],
+            sandwiches: [
+                { name: "Grilled Cottage Cheese Panini", price: "₹290", desc: "Herbed paneer, basil pesto, roasted peppers, and cheddar pressed crisp.", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=500&q=80", tag: "Vegetarian" },
+                { name: "Smoked Chicken Ciabatta", price: "₹360", desc: "Pulled smoked chicken breast, honey mustard glaze, and rocket leaves.", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=500&q=80", tag: "Non-Veg" },
+                { name: "Truffle Mushroom Toastie", price: "₹330", desc: "Wild sautéed mushrooms, truffle oil, and melted Gruyère cheese.", img: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=500&q=80", tag: "Gourmet" }
+            ],
+            mains: [
+                { name: "Pesto Pasta Warm Bowl", price: "₹380", desc: "Penne tossed in fresh Genovese basil pesto, cherry tomatoes, and pine nuts.", img: "https://images.unsplash.com/photo-1621996346565-e3d5d6281288?auto=format&fit=crop&w=500&q=80", tag: "In-Cafe Meal" },
+                { name: "Mediterranean Grain Bowl", price: "₹350", desc: "Warm quinoa, spiced chickpeas, hummus, cucumber, and feta cheese.", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80", tag: "Healthy" },
+                { name: "Creamy Roasted Tomato Soup", price: "₹260", desc: "Served with grilled sourdough cheese croutons for dipping.", img: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&q=80", tag: "Comfort Food" }
+            ],
+            desserts: [
+                { name: "French Butter Croissant", price: "₹180", desc: "Flaky, multi-layered golden croissant baked fresh every morning.", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80", tag: "Fresh Baked" },
+                { name: "Belgian Dark Chocolate Tart", price: "₹240", desc: "70% cocoa ganache in a crisp pastry crust dusted with sea salt.", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=500&q=80", tag: "Decadent" },
+                { name: "Classic Basque Cheesecake", price: "₹270", desc: "Burnt caramelized top with a soft, creamy center.", img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=500&q=80", tag: "Popular" }
+            ],
+            beverages: [
+                { name: "Classic Cappuccino", price: "₹220", desc: "Double shot espresso topped with velvet steamed milk and cocoa dust.", img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=500&q=80", tag: "Hot Coffee" },
+                { name: "Iced Hazelnut Oat Latte", price: "₹260", desc: "Slow-pulled espresso over cold oat milk infused with roasted hazelnut.", img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80", tag: "Cold Brew" },
+                { name: "Kashmiri Saffron Kahwa", price: "₹210", desc: "Traditional green tea infused with saffron, cardamom, and crushed almonds.", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80", tag: "Artisanal Tea" }
+            ]
+        };
+
+        let currentCategory = 'breakfast';
+
+        // Switch main page section
+        function switchMainView(viewId, btnElement) {
+            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
+            
+            document.getElementById(viewId).classList.add('active');
+            if (btnElement) btnElement.classList.add('active');
+
+            if (viewId === 'menu-view') {
+                renderMenu();
+            }
+        }
+
+        // Switch sub-category inside food menu
+        function switchCategory(category, btnElement) {
+            currentCategory = category;
+            document.querySelectorAll('.subtab-btn').forEach(btn => btn.classList.remove('active'));
+            if (btnElement) btnElement.classList.add('active');
+            renderMenu();
+        }
+
+        // Render current category items
+        function renderMenu() {
+            const grid = document.getElementById('menuGrid');
+            grid.innerHTML = '';
+            
+            const items = menuData[currentCategory];
+            items.forEach(item => {
+                grid.innerHTML += `
+                    <div class="menu-card">
+                        <img src="${item.img}" class="card-img" alt="${item.name}">
+                        <div class="card-content">
+                            <div class="card-header">
+                                <h3 class="card-title">${item.name}</h3>
+                                <span class="card-price">${item.price}</span>
+                            </div>
+                            <p class="card-desc">${item.desc}</p>
+                            <span class="card-tag">${item.tag}</span>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        // Initialize default state
+        renderMenu();
+    </script>
+</body>
+</html>
