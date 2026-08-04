@@ -32,6 +32,10 @@
             --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: var(--font-body);
             background-color: var(--bg-main);
@@ -78,7 +82,8 @@
             list-style: none;
         }
 
-        .nav-tab-btn {
+        .nav-tab-link {
+            text-decoration: none;
             background: transparent;
             border: 1px solid transparent;
             padding: 0.5rem 1.1rem;
@@ -87,29 +92,15 @@
             font-size: 0.9rem;
             font-weight: 600;
             color: var(--text-dark);
-            cursor: pointer;
             transition: var(--transition);
         }
 
-        .nav-tab-btn:hover { color: var(--accent); }
-
-        .nav-tab-btn.active {
-            background-color: var(--primary);
-            color: #FFF;
-        }
+        .nav-tab-link:hover { color: var(--accent); }
 
         /* PAGE SECTIONS */
-        .view-section {
-            display: none;
-            padding: 2.5rem 0;
-            animation: fadeIn 0.4s ease-in-out;
-        }
-
-        .view-section.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
+        .page-section {
+            padding: 4rem 0;
+            border-bottom: 1px solid var(--border-color);
         }
 
         /* HOME HERO */
@@ -118,7 +109,7 @@
             grid-template-columns: 1fr 1fr;
             gap: 3rem;
             align-items: center;
-            min-height: 70vh;
+            min-height: 80vh;
         }
 
         .hero-title {
@@ -136,13 +127,13 @@
         }
 
         .btn-primary {
+            display: inline-block;
+            text-decoration: none;
             background-color: var(--accent);
             color: #FFF;
             padding: 0.8rem 1.8rem;
             border-radius: 30px;
             font-weight: 500;
-            border: none;
-            cursor: pointer;
             font-size: 0.95rem;
             transition: var(--transition);
         }
@@ -157,7 +148,7 @@
             box-shadow: var(--shadow-md);
         }
 
-        /* MENU VIEWPORT (NO-SCROLL SYSTEM) */
+        /* GENERAL SECTION HEADINGS */
         .section-title {
             font-family: var(--font-heading);
             font-size: 2.2rem;
@@ -169,35 +160,24 @@
         .section-subtitle {
             text-align: center;
             color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2.5rem;
             font-size: 0.95rem;
         }
 
-        .category-subtabs {
-            display: flex;
-            justify-content: center;
-            gap: 0.5rem;
-            margin-bottom: 1.8rem;
-            flex-wrap: wrap;
+        .category-heading {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 2.5rem 0 1.2rem 0;
+            padding-bottom: 0.4rem;
+            border-bottom: 2px solid var(--border-color);
         }
 
-        .subtab-btn {
-            background: #E8E2D9;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-dark);
-            cursor: pointer;
-            transition: var(--transition);
+        .category-heading:first-of-type {
+            margin-top: 1rem;
         }
 
-        .subtab-btn.active {
-            background-color: var(--accent);
-            color: #FFF;
-        }
-
+        /* MENU GRID */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -304,7 +284,6 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 1.5rem;
-            margin-top: 2rem;
         }
 
         .feature-card {
@@ -336,33 +315,34 @@
         @media (max-width: 900px) {
             .hero, .menu-grid, .gallery-grid, .features-grid { grid-template-columns: 1fr; }
             .hero-title { font-size: 2.2rem; }
+            .main-nav-tabs { display: none; } /* Simplified for compact view */
         }
     </style>
 </head>
 <body>
 
-    <!-- NAV BAR & PAGE SWITCHER -->
+    <!-- NAVIGATION BAR -->
     <nav class="navbar">
         <div class="container nav-container">
-            <a href="#" class="logo">Earth & <span>Bean</span></a>
-            <div class="main-nav-tabs">
-                <button class="nav-tab-btn active" onclick="switchMainView('home-view', this)">Home</button>
-                <button class="nav-tab-btn" onclick="switchMainView('menu-view', this)">Food & Drinks Menu</button>
-                <button class="nav-tab-btn" onclick="switchMainView('gallery-view', this)">Cafe Ambience Photos</button>
-                <button class="nav-tab-btn" onclick="switchMainView('about-view', this)">Unique Features</button>
-            </div>
+            <a href="#home" class="logo">Earth & <span>Bean</span></a>
+            <ul class="main-nav-tabs">
+                <li><a href="#home" class="nav-tab-link">Home</a></li>
+                <li><a href="#menu" class="nav-tab-link">Food & Drinks Menu</a></li>
+                <li><a href="#gallery" class="nav-tab-link">Cafe Ambience</a></li>
+                <li><a href="#about" class="nav-tab-link">Unique Features</a></li>
+            </ul>
         </div>
     </nav>
 
     <main class="container">
         
-        <!-- PAGE 1: HOME -->
-        <section id="home-view" class="view-section active">
+        <!-- SECTION 1: HOME -->
+        <section id="home" class="page-section">
             <div class="hero">
                 <div>
                     <h1 class="hero-title">A quiet sanctuary for artisanal coffee & fresh meals.</h1>
                     <p class="hero-desc">Small-batch coffee roasted in-house, sourdough bakery items, and high-speed working nooks nestled in lush green surroundings.</p>
-                    <button class="btn-primary" onclick="switchMainView('menu-view', document.querySelectorAll('.nav-tab-btn')[1])">View Full Food & Drinks Menu</button>
+                    <a href="#menu" class="btn-primary">View Full Food & Drinks Menu</a>
                 </div>
                 <div class="hero-img">
                     <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80" alt="Cafe interior">
@@ -370,28 +350,159 @@
             </div>
         </section>
 
-        <!-- PAGE 2: EXPANDED FOOD & DRINKS MENU -->
-        <section id="menu-view" class="view-section">
+        <!-- SECTION 2: FOOD & DRINKS MENU -->
+        <section id="menu" class="page-section">
             <h2 class="section-title">In-Cafe Dining & Specialty Menu</h2>
-            <p class="section-subtitle">Switch categories below to explore freshly prepared cafe items.</p>
+            <p class="section-subtitle">Explore our freshly prepared cafe items categorized below.</p>
             
-            <!-- Category Tabs -->
-            <div class="category-subtabs">
-                <button class="subtab-btn active" onclick="switchCategory('breakfast', this)">All-Day Breakfast</button>
-                <button class="subtab-btn" onclick="switchCategory('sandwiches', this)">Artisanal Sandwiches</button>
-                <button class="subtab-btn" onclick="switchCategory('mains', this)">Main Bowls & Plates</button>
-                <button class="subtab-btn" onclick="switchCategory('desserts', this)">Bakery & Desserts</button>
-                <button class="subtab-btn" onclick="switchCategory('beverages', this)">Coffee & Beverages</button>
+            <!-- All-Day Breakfast -->
+            <h3 class="category-heading">All-Day Breakfast</h3>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Avocado Toast">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Avocado & Poached Egg Toast</h3><span class="card-price">₹340</span></div>
+                        <p class="card-desc">Smashed Hass avocado, organic poached egg, and chili flakes on sourdough.</p>
+                        <span class="card-tag">Best Seller</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Pancakes">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Fluffy Berry Pancakes</h3><span class="card-price">₹290</span></div>
+                        <p class="card-desc">Triple stacked maple pancakes served with fresh blueberry compote.</p>
+                        <span class="card-tag">Sweet</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1590412200988-a436970781fa?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Shakshuka">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Shakshuka with Garlic Toast</h3><span class="card-price">₹320</span></div>
+                        <p class="card-desc">Two poached eggs in a spiced bell pepper tomato sauce with sourdough slices.</p>
+                        <span class="card-tag">Chef Special</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- Dynamic Menu Grid -->
-            <div class="menu-grid" id="menuGrid">
-                <!-- Javascript injects food items here -->
+            <!-- Artisanal Sandwiches -->
+            <h3 class="category-heading">Artisanal Sandwiches</h3>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Panini">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Grilled Cottage Cheese Panini</h3><span class="card-price">₹290</span></div>
+                        <p class="card-desc">Herbed paneer, basil pesto, roasted peppers, and cheddar pressed crisp.</p>
+                        <span class="card-tag">Vegetarian</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Ciabatta">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Smoked Chicken Ciabatta</h3><span class="card-price">₹360</span></div>
+                        <p class="card-desc">Pulled smoked chicken breast, honey mustard glaze, and rocket leaves.</p>
+                        <span class="card-tag">Non-Veg</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Toastie">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Truffle Mushroom Toastie</h3><span class="card-price">₹330</span></div>
+                        <p class="card-desc">Wild sautéed mushrooms, truffle oil, and melted Gruyère cheese.</p>
+                        <span class="card-tag">Gourmet</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Bowls & Plates -->
+            <h3 class="category-heading">Main Bowls & Plates</h3>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1621996346565-e3d5d6281288?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Pasta">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Pesto Pasta Warm Bowl</h3><span class="card-price">₹380</span></div>
+                        <p class="card-desc">Penne tossed in fresh Genovese basil pesto, cherry tomatoes, and pine nuts.</p>
+                        <span class="card-tag">In-Cafe Meal</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Grain Bowl">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Mediterranean Grain Bowl</h3><span class="card-price">₹350</span></div>
+                        <p class="card-desc">Warm quinoa, spiced chickpeas, hummus, cucumber, and feta cheese.</p>
+                        <span class="card-tag">Healthy</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Soup">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Creamy Roasted Tomato Soup</h3><span class="card-price">₹260</span></div>
+                        <p class="card-desc">Served with grilled sourdough cheese croutons for dipping.</p>
+                        <span class="card-tag">Comfort Food</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bakery & Desserts -->
+            <h3 class="category-heading">Bakery & Desserts</h3>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Croissant">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">French Butter Croissant</h3><span class="card-price">₹180</span></div>
+                        <p class="card-desc">Flaky, multi-layered golden croissant baked fresh every morning.</p>
+                        <span class="card-tag">Fresh Baked</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Tart">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Belgian Dark Chocolate Tart</h3><span class="card-price">₹240</span></div>
+                        <p class="card-desc">70% cocoa ganache in a crisp pastry crust dusted with sea salt.</p>
+                        <span class="card-tag">Decadent</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Cheesecake">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Classic Basque Cheesecake</h3><span class="card-price">₹270</span></div>
+                        <p class="card-desc">Burnt caramelized top with a soft, creamy center.</p>
+                        <span class="card-tag">Popular</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coffee & Beverages -->
+            <h3 class="category-heading">Coffee & Beverages</h3>
+            <div class="menu-grid">
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Cappuccino">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Classic Cappuccino</h3><span class="card-price">₹220</span></div>
+                        <p class="card-desc">Double shot espresso topped with velvet steamed milk and cocoa dust.</p>
+                        <span class="card-tag">Hot Coffee</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Latte">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Iced Hazelnut Oat Latte</h3><span class="card-price">₹260</span></div>
+                        <p class="card-desc">Slow-pulled espresso over cold oat milk infused with roasted hazelnut.</p>
+                        <span class="card-tag">Cold Brew</span>
+                    </div>
+                </div>
+                <div class="menu-card">
+                    <img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80" class="card-img" alt="Tea">
+                    <div class="card-content">
+                        <div class="card-header"><h3 class="card-title">Kashmiri Saffron Kahwa</h3><span class="card-price">₹210</span></div>
+                        <p class="card-desc">Traditional green tea infused with saffron, cardamom, and crushed almonds.</p>
+                        <span class="card-tag">Artisanal Tea</span>
+                    </div>
+                </div>
             </div>
         </section>
 
-        <!-- PAGE 3: CAFE AMBIENCE PHOTO GALLERY -->
-        <section id="gallery-view" class="view-section">
+        <!-- SECTION 3: CAFE AMBIENCE PHOTO GALLERY -->
+        <section id="gallery" class="page-section">
             <h2 class="section-title">Explore Our Space</h2>
             <p class="section-subtitle">Take a look inside before you visit us.</p>
             
@@ -423,8 +534,8 @@
             </div>
         </section>
 
-        <!-- PAGE 4: UNIQUE FEATURES & ABOUT US -->
-        <section id="about-view" class="view-section">
+        <!-- SECTION 4: UNIQUE FEATURES & ABOUT US -->
+        <section id="about" class="page-section" style="border-bottom: none;">
             <h2 class="section-title">What Makes Us Unique</h2>
             <p class="section-subtitle">More than just coffee — a thought-out space for work, leisure, and culinary delight.</p>
 
@@ -464,85 +575,5 @@
 
     </main>
 
-    <!-- JAVASCRIPT LOGIC -->
-    <script>
-        // EXPANDED FOOD & DRINKS DATASET
-        const menuData = {
-            breakfast: [
-                { name: "Avocado & Poached Egg Toast", price: "₹340", desc: "Smashed Hass avocado, organic poached egg, and chili flakes on sourdough.", img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=500&q=80", tag: "Best Seller" },
-                { name: "Fluffy Berry Pancakes", price: "₹290", desc: "Triple stacked maple pancakes served with fresh blueberry compote.", img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?auto=format&fit=crop&w=500&q=80", tag: "Sweet" },
-                { name: "Shakshuka with Garlic Toast", price: "₹320", desc: "Two poached eggs in a spiced bell pepper tomato sauce with sourdough slices.", img: "https://images.unsplash.com/photo-1590412200988-a436970781fa?auto=format&fit=crop&w=500&q=80", tag: "Chef Special" }
-            ],
-            sandwiches: [
-                { name: "Grilled Cottage Cheese Panini", price: "₹290", desc: "Herbed paneer, basil pesto, roasted peppers, and cheddar pressed crisp.", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&w=500&q=80", tag: "Vegetarian" },
-                { name: "Smoked Chicken Ciabatta", price: "₹360", desc: "Pulled smoked chicken breast, honey mustard glaze, and rocket leaves.", img: "https://images.unsplash.com/photo-1509722747041-616f39b57569?auto=format&fit=crop&w=500&q=80", tag: "Non-Veg" },
-                { name: "Truffle Mushroom Toastie", price: "₹330", desc: "Wild sautéed mushrooms, truffle oil, and melted Gruyère cheese.", img: "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=500&q=80", tag: "Gourmet" }
-            ],
-            mains: [
-                { name: "Pesto Pasta Warm Bowl", price: "₹380", desc: "Penne tossed in fresh Genovese basil pesto, cherry tomatoes, and pine nuts.", img: "https://images.unsplash.com/photo-1621996346565-e3d5d6281288?auto=format&fit=crop&w=500&q=80", tag: "In-Cafe Meal" },
-                { name: "Mediterranean Grain Bowl", price: "₹350", desc: "Warm quinoa, spiced chickpeas, hummus, cucumber, and feta cheese.", img: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=500&q=80", tag: "Healthy" },
-                { name: "Creamy Roasted Tomato Soup", price: "₹260", desc: "Served with grilled sourdough cheese croutons for dipping.", img: "https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=500&q=80", tag: "Comfort Food" }
-            ],
-            desserts: [
-                { name: "French Butter Croissant", price: "₹180", desc: "Flaky, multi-layered golden croissant baked fresh every morning.", img: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?auto=format&fit=crop&w=500&q=80", tag: "Fresh Baked" },
-                { name: "Belgian Dark Chocolate Tart", price: "₹240", desc: "70% cocoa ganache in a crisp pastry crust dusted with sea salt.", img: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?auto=format&fit=crop&w=500&q=80", tag: "Decadent" },
-                { name: "Classic Basque Cheesecake", price: "₹270", desc: "Burnt caramelized top with a soft, creamy center.", img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?auto=format&fit=crop&w=500&q=80", tag: "Popular" }
-            ],
-            beverages: [
-                { name: "Classic Cappuccino", price: "₹220", desc: "Double shot espresso topped with velvet steamed milk and cocoa dust.", img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?auto=format&fit=crop&w=500&q=80", tag: "Hot Coffee" },
-                { name: "Iced Hazelnut Oat Latte", price: "₹260", desc: "Slow-pulled espresso over cold oat milk infused with roasted hazelnut.", img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80", tag: "Cold Brew" },
-                { name: "Kashmiri Saffron Kahwa", price: "₹210", desc: "Traditional green tea infused with saffron, cardamom, and crushed almonds.", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?auto=format&fit=crop&w=500&q=80", tag: "Artisanal Tea" }
-            ]
-        };
-
-        let currentCategory = 'breakfast';
-
-        // Switch main page section
-        function switchMainView(viewId, btnElement) {
-            document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
-            document.querySelectorAll('.nav-tab-btn').forEach(btn => btn.classList.remove('active'));
-            
-            document.getElementById(viewId).classList.add('active');
-            if (btnElement) btnElement.classList.add('active');
-
-            if (viewId === 'menu-view') {
-                renderMenu();
-            }
-        }
-
-        // Switch sub-category inside food menu
-        function switchCategory(category, btnElement) {
-            currentCategory = category;
-            document.querySelectorAll('.subtab-btn').forEach(btn => btn.classList.remove('active'));
-            if (btnElement) btnElement.classList.add('active');
-            renderMenu();
-        }
-
-        // Render current category items
-        function renderMenu() {
-            const grid = document.getElementById('menuGrid');
-            grid.innerHTML = '';
-            
-            const items = menuData[currentCategory];
-            items.forEach(item => {
-                grid.innerHTML += `
-                    <div class="menu-card">
-                        <img src="${item.img}" class="card-img" alt="${item.name}">
-                        <div class="card-content">
-                            <div class="card-header">
-                                <h3 class="card-title">${item.name}</h3>
-                                <span class="card-price">${item.price}</span>
-                            </div>
-                            <p class="card-desc">${item.desc}</p>
-                            <span class="card-tag">${item.tag}</span>
-                        </div>
-                    </div>
-                `;
-            });
-        }
-
-        // Initialize default state
-        renderMenu();
-    </script>
 </body>
 </html>
